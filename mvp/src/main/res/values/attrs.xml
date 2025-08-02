@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="JellyLayout">
+        <attr name="uiStyle">
+            <flag name="linear" value="0" />
+            <flag name="frame" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="LoadingView">
+        <attr name="autoStart" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="Trace_View">
+        <attr name="traceCode" format="string" />
+        <attr name="reportShowEnable" format="boolean" />
+        <attr name="reportClickEnable" format="boolean" />
+    </declare-styleable>
+</resources>

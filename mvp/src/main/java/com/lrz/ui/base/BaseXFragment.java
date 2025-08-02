@@ -1,7 +1,7 @@
 package com.lrz.ui.base;
 
-import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.AnimRes;
@@ -66,6 +66,15 @@ public class BaseXFragment extends Fragment implements ViewTreeObserver.OnGlobal
         if (isShow ^ (isResume && isVisible && isParentVisible)) {
             isShow = isResume && isVisible && isParentVisible;
             onShow(isShow);
+            List<Fragment> fragments = getChildFragmentManager().getFragments();
+            if (!fragments.isEmpty()) {
+                for (int i = fragments.size() - 1; i >= 0; i--) {
+                    Fragment fragment = fragments.get(i);
+                    if (fragment instanceof BaseXFragment) {
+                        ((BaseXFragment) fragment).checkShow();
+                    }
+                }
+            }
         }
     }
 
@@ -129,6 +138,20 @@ public class BaseXFragment extends Fragment implements ViewTreeObserver.OnGlobal
         }
         return false;
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        List<Fragment> fragments = getChildFragmentManager().getFragments();
+        if (!fragments.isEmpty()) {
+            for (int i = fragments.size() - 1; i >= 0; i--) {
+                Fragment fragment = fragments.get(i);
+                if (fragment instanceof BaseXFragment && ((BaseXFragment) fragment).isShow() && ((BaseXFragment) fragment).onKeyDown(keyCode, event)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public void onGlobalLayout() {

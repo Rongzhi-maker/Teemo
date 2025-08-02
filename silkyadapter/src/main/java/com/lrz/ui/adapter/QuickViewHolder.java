@@ -1,6 +1,5 @@
 package com.lrz.ui.adapter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.SparseArray;

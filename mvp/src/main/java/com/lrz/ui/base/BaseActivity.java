@@ -3,10 +3,14 @@ package com.lrz.ui.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import java.util.List;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -79,5 +83,33 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected boolean enableHugeIntentStartActivity() {
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (!fragments.isEmpty()) {
+            for (int i = fragments.size() - 1; i >= 0; i--) {
+                Fragment fragment = fragments.get(i);
+                if (fragment instanceof BaseXFragment && ((BaseXFragment) fragment).isShow() && ((BaseXFragment) fragment).onBackPressed()) {
+                    return;
+                }
+            }
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (!fragments.isEmpty()) {
+            for (int i = fragments.size() - 1; i >= 0; i--) {
+                Fragment fragment = fragments.get(i);
+                if (fragment instanceof BaseXFragment && ((BaseXFragment) fragment).isShow() && ((BaseXFragment) fragment).onKeyDown(keyCode, event)) {
+                    return true;
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

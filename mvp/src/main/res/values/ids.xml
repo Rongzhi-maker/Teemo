@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="trace_params" type="id" />
+    <item name="trace_int_id" type="id" />
+    <item name="trace_extra" type="id" />
+</resources>

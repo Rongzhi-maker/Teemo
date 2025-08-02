@@ -1,24 +1,25 @@
 package com.lrz.ui.mvp;
 
+import android.content.Context;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.lrz.ui.base.BaseActivity;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.List;
 
 /**
  * Author And Date: liurongzhi on 2020/2/16.
- * Description: com.yilan.sdk.common.ui.mvp
  */
 public abstract class YLBaseActivity<P extends YLPresenter> extends BaseActivity implements YLBaseUI {
     protected P presenter;
     private boolean isResume = false;
+    public View viewRoot;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +31,12 @@ public abstract class YLBaseActivity<P extends YLPresenter> extends BaseActivity
         }
         View viewRoot = onCreateContentView(LayoutInflater.from(this));
         setContentView(viewRoot);
-        presenter.initIntentData();
+        this.viewRoot = viewRoot;
+        presenter.initIntentData(getIntent().getExtras(), savedInstanceState);
         initView(viewRoot);
         presenter.initData();
     }
+
 
     @Override
     protected void onPause() {
@@ -49,21 +52,6 @@ public abstract class YLBaseActivity<P extends YLPresenter> extends BaseActivity
         presenter.onResume();
     }
 
-
-    @Override
-    public void onBackPressed() {
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (!fragments.isEmpty()) {
-            for (int i = fragments.size() - 1; i >= 0; i--) {
-                Fragment fragment = fragments.get(i);
-                if (fragment instanceof YLBaseFragment && ((YLBaseFragment) fragment).onBackPressed()) {
-                    return;
-                }
-            }
-        }
-        super.onBackPressed();
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -74,4 +62,10 @@ public abstract class YLBaseActivity<P extends YLPresenter> extends BaseActivity
     public boolean isShow() {
         return isResume;
     }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
 }
+

@@ -55,7 +55,7 @@ public class YLMultiRecycleAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         return this;
     }
 
-    public YLMultiRecycleAdapter viewAttachListener(ViewAttachedToWindowListener listener) {
+    public YLMultiRecycleAdapter viewAttachListener(ViewAttachedToWindowListener<?> listener) {
         this.viewAttachedToWindowListener = listener;
         return this;
     }

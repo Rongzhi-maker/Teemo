@@ -15,5 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "UIBase"
 include ':app'
-include ':silkyadapter'
 include ':mvp'
